@@ -7,6 +7,7 @@ INVALID_FILE_PATH = "invalid_file.txt"
 TMP_ATTENDANCE_FILE = "attendance.txt"
 SOMEONE = "Someone"
 SOMEDAY = "Someday"
+REMOVED_PLAYER_HEADER = "\nRemoved player\n==============\n"
 
 
 @pytest.fixture
@@ -122,9 +123,7 @@ def test_empty_removed_player(capsys, attendance_path, day):
     attendance_manager.print_removed_player()
 
     captured = capsys.readouterr()
-    empty_removed_player = "\nRemoved player\n"
-    empty_removed_player += "==============\n"
-    assert captured.out == empty_removed_player
+    assert captured.out == REMOVED_PLAYER_HEADER
 
 
 @pytest.mark.parametrize("lines", [30, 50])
@@ -138,9 +137,7 @@ def test_empty_removed_player_not_normal(capsys, attendance_path, lines):
     attendance_manager.print_removed_player()
 
     captured = capsys.readouterr()
-    empty_removed_player = "\nRemoved player\n"
-    empty_removed_player += "==============\n"
-    assert captured.out == empty_removed_player
+    assert captured.out == REMOVED_PLAYER_HEADER
 
 
 def test_removed_player(capsys, attendance_path):
@@ -153,8 +150,7 @@ def test_removed_player(capsys, attendance_path):
     attendance_manager.print_removed_player()
 
     captured = capsys.readouterr()
-    removed_player = "\nRemoved player\n"
-    removed_player += "==============\n"
+    removed_player = REMOVED_PLAYER_HEADER
     removed_player += f"{SOMEONE}\n"
     assert captured.out == removed_player
 
@@ -172,7 +168,6 @@ def test_print_player_status_and_removed_player(capsys, attendance_path):
 
     captured = capsys.readouterr()
     status = f"NAME : {SOMEONE}, POINT : 29, GRADE : NORMAL\n"
-    removed_player = "\nRemoved player\n"
-    removed_player += "==============\n"
+    removed_player = REMOVED_PLAYER_HEADER
     removed_player += f"{SOMEONE}\n"
     assert captured.out == status + removed_player
